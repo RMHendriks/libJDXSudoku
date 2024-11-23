@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -22,12 +23,15 @@ public class GameScreen implements Screen {
 
     Board board;
 
+    Sprite[] numberSprites;
+
 
     public GameScreen(final Sudoku game) {
         this.game = game;
-        grid = new Texture(Gdx.files.internal("grid.png"));
-        numberAtlas = new Texture(Gdx.files.internal("s_numbers_b.png"));
+
         board = new Board();
+        loadSprites();
+
         System.out.println(board);
         System.out.println(board.blockCells[1]);
 
@@ -58,20 +62,31 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.WHITE);
 
         game.batch.begin();
-        for (int x = 5; x < 11; x += 2) {
-            for (int y = 3; y < 9; y += 2) {
-                game.batch.draw(grid, x, y, 2, 2);
-            }
-        }
-
-        // TODO fix the number Texture system
-        for (int x = 0; x < 66; x += 64){
-            for (int y = 0; y < 66; y += 64){
-                game.batch.draw(numberAtlas, x, y, 2, 2);
+        for (int x = 300; x < 900; x += 200) {
+            for (int y = 200; y < 800; y += 200) {
+                game.batch.draw(grid, x, y, 200, 200);
             }
         }
 
         game.batch.end();
+    }
+
+    // loads the sprites for the game
+    public void loadSprites() {
+        grid = new Texture(Gdx.files.internal("grid.png"));
+        numberAtlas = new Texture(Gdx.files.internal("s_numbers_b.png"));
+
+        // Loads in Number Textures
+        int spriteCounter = 0;
+        numberSprites = new Sprite[9];
+
+        for  (int x = 0; x < 192; x += 64) {
+            for (int y = 0; y < 192; y += 64) {
+                TextureRegion region = new TextureRegion(numberAtlas, x, y, 64, 64);
+                numberSprites[spriteCounter] = new Sprite(region);
+                spriteCounter++;
+            }
+        }
     }
 
     @Override

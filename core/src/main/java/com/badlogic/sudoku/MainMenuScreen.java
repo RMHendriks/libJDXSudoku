@@ -20,12 +20,12 @@ public class MainMenuScreen implements Screen {
         ScreenUtils.clear(Color.WHITE);
 
         game.viewport.apply();
-        game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
+        game.viewport.getCamera().position.set(400, 400, 0);
 
         game.batch.begin();
         //draw text. Remember that x and y are in meters
-        game.font.draw(game.batch, "Welcome to Sudoku!!! ", 2, 2.5f);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 2, 2);
+        game.font.draw(game.batch, "Welcome to Sudoku!!! ", 100, 100);
+        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 125);
 
 
         game.batch.end();

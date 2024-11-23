@@ -1,6 +1,9 @@
 package com.badlogic.sudoku;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Board {
 
@@ -48,6 +51,16 @@ public class Board {
                 }
             }
         }
+    }
+
+    // gets all the cells of the board as a 1d list
+    public Iterable<Cell> getCells() {
+        List<Cell> cellList = new ArrayList<Cell>();
+        for (Cell[] boardCell : boardCells) {
+            cellList.addAll(Arrays.asList(boardCell));
+        }
+
+        return cellList;
     }
 
     @Override
