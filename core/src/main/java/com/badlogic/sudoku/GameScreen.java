@@ -3,33 +3,30 @@ package com.badlogic.sudoku;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen {
     final Sudoku game;
+
+    int screenXOffset = 300;
+    int screenYOffset = 200;
 
     Texture grid;
     Texture numberAtlas;
 
     Board board;
 
-    Sprite[] numberSprites;
+    TextureRegion[] numberTextureAtlas;
 
 
     public GameScreen(final Sudoku game) {
         this.game = game;
 
-        board = new Board();
+        board = new Board(screenXOffset + 6, screenYOffset + 6);
         loadSprites();
 
         System.out.println(board);
@@ -51,7 +48,9 @@ public class GameScreen implements Screen {
     }
 
     private void input() {
-
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            board.solveBoard();
+        }
     }
 
     private void logic() {
@@ -61,11 +60,17 @@ public class GameScreen implements Screen {
     private void draw() {
         ScreenUtils.clear(Color.WHITE);
 
+        // draw the board
         game.batch.begin();
-        for (int x = 300; x < 900; x += 200) {
-            for (int y = 200; y < 800; y += 200) {
+        for (int x = screenXOffset; x < screenXOffset + 600; x += 200) {
+            for (int y = screenYOffset; y < screenYOffset + 600; y += 200) {
                 game.batch.draw(grid, x, y, 200, 200);
             }
+        }
+
+        // draw the cells on the board
+        for (Cell cell: board.getCells()) {
+            cell.sprite.draw(game.batch);
         }
 
         game.batch.end();
@@ -74,19 +79,7 @@ public class GameScreen implements Screen {
     // loads the sprites for the game
     public void loadSprites() {
         grid = new Texture(Gdx.files.internal("grid.png"));
-        numberAtlas = new Texture(Gdx.files.internal("s_numbers_b.png"));
 
-        // Loads in Number Textures
-        int spriteCounter = 0;
-        numberSprites = new Sprite[9];
-
-        for  (int x = 0; x < 192; x += 64) {
-            for (int y = 0; y < 192; y += 64) {
-                TextureRegion region = new TextureRegion(numberAtlas, x, y, 64, 64);
-                numberSprites[spriteCounter] = new Sprite(region);
-                spriteCounter++;
-            }
-        }
     }
 
     @Override

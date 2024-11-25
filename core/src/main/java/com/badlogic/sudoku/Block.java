@@ -1,24 +1,14 @@
 package com.badlogic.sudoku;
 
-public class Block {
-    int xBlockIndex;
-    int yBlockIndex;
-
-    int arrayIndex;
-    Cell[] cellArray;
+public class Block extends CellCollection {
 
     public Block(int xIndex, int yIndex) {
-        this.xBlockIndex = xIndex;
-        this.yBlockIndex = yIndex;
-
-        this.arrayIndex = 0;
-        this.cellArray = new Cell[9];
+        super(xIndex, yIndex);
     }
 
     public void addCell(Cell cell) {
-        cellArray[arrayIndex] = cell;
+        super.addCell(cell);
         cell.block = this;
-        arrayIndex++;
     }
 
     @Override
