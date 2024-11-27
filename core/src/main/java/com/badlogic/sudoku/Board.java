@@ -5,8 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -148,7 +146,7 @@ public class Board {
     // loads in the board from a 2d array
     public void loadBoard() {
 
-        FileHandle file = Gdx.files.internal("boards/sudoku1.json");
+        FileHandle file = Gdx.files.internal("boards/sudoku3.json");
 
         String jsonText = file.readString();
         System.out.println(jsonText);
