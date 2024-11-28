@@ -14,6 +14,11 @@ public class MainMenuScreen implements Screen {
     Table table;
     Skin skin;
 
+    TextButton startButton;
+    TextButton optionsButton;
+    TextButton scoreButton;
+    TextButton exitButton;
+
 
     public MainMenuScreen(final Sudoku game) {
         this.game = game;
@@ -23,14 +28,25 @@ public class MainMenuScreen implements Screen {
 
         this.table = new Table();
         table.setFillParent(true);
-        table.top();
+        table.center();
+        table.defaults().pad(10);
+        table.debug();
 
-        Label label = new Label("UI test!", skin);
-        TextButton button = new TextButton("Click Me!", skin);
+        Label label = new Label("Main Menu", skin);
+        startButton = new TextButton("Sudoku", skin);
+        optionsButton = new TextButton("Options Menu", skin);
+        scoreButton = new TextButton("Score Menu", skin);
+        exitButton = new TextButton("Exit", skin);
 
-        table.add(label).expandX().pad(10);
+        table.add(label).expandX();
         table.row();
-        table.add(button).expandX().pad(10);
+        table.add(startButton).expandX().prefSize(250, 50);
+        table.row();
+        table.add(optionsButton).expandX().prefSize(250, 50);
+        table.row();
+        table.add(scoreButton).expandX().prefSize(250, 50);
+        table.row();
+        table.add(exitButton).expandX().prefSize(250, 50);
 
         stage.addActor(table);
 
@@ -43,18 +59,25 @@ public class MainMenuScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
 
         game.batch.begin();
-        //draw text. Remember that x and y are in meters
-        game.font.draw(game.batch, "Welcome to Sudoku!!! ", 100, 100);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 125);
 
         stage.act(delta);
         stage.draw();
 
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
+        input();
+
+    }
+
+    public void input() {
+        if (startButton.isPressed()) {
+            System.out.println("Start");
             game.setScreen(new GameScreen(game));
             dispose();
+        }
+        else if (exitButton.isPressed()) {
+            Gdx.app.exit();
+            System.exit(-1);
         }
     }
 
